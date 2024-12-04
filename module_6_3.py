@@ -52,20 +52,20 @@ class AquaticAnimal(Animal):
         self._cord[2] = 0
 
 
-class PoisonosAnimal(Animal):
+class PoisonousAnimal(Animal):
     def __init__(self, speed=7):
         super().__init__(speed)
         self._DEGREE_OF_DANGER = 8
 
 
-class Duckbill(Bird, AquaticAnimal, PoisonosAnimal):
+class Duckbill(Bird, AquaticAnimal, PoisonousAnimal):
     sound = 'Click-click-click'
 
     def __init__(self, speed=7):
         super().__init__(speed)
         Bird.__init__(self, speed)
         AquaticAnimal.__init__(self, speed)
-        PoisonosAnimal.__init__(self, speed)
+        PoisonousAnimal.__init__(self, speed)
 
 
 db = Duckbill(10)
