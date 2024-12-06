@@ -11,12 +11,15 @@ class Animal:
         self.speed = speed
 
     def move(self, dx, dy, dz):
-        if dz < 0:
+        new_dz = self._cord[2] + dz * self.speed
+        if new_dz < 0:
             print("It's too deep, i can't dive :(")
             return
         self._cord[0] += dx * self.speed
         self._cord[1] += dy * self.speed
-        self._cord[2] += dz * self.speed
+        self._cord[2] = new_dz
+
+
 
     def get_cords(self):
         print(f'X:{self._cord[0]}, Y:{self._cord[1]}, Z:{self._cord[2]}')
@@ -37,7 +40,7 @@ class Bird(Animal):
         self.beak = True
 
     def lay_eggs(self):
-        print(f'Here are(is) {random.randint(1, 4)}, eggs for you')
+        print(f'Here are(is) {random.randint(1, 4)} eggs for you')
 
 
 class AquaticAnimal(Animal):
@@ -46,10 +49,8 @@ class AquaticAnimal(Animal):
         self._DEGREE_OF_DANGER = 3
 
     def dive_in(self, dz):
-        # self._cord[2] = abs(dz * (self.speed / 2))
-        dz = abs(dz)
-        diving_speed = self.speed / 2
-        self._cord[2] = 0
+        # diving_speed = self.speed / 2
+        self._cord[2] -= abs(dz) * (self.speed / 2)
 
 
 class PoisonousAnimal(Animal):
@@ -58,14 +59,13 @@ class PoisonousAnimal(Animal):
         self._DEGREE_OF_DANGER = 8
 
 
-class Duckbill(Bird, AquaticAnimal, PoisonousAnimal):
+class Duckbill(AquaticAnimal, Bird, PoisonousAnimal):
     sound = 'Click-click-click'
-
     def __init__(self, speed=7):
         super().__init__(speed)
         Bird.__init__(self, speed)
-        AquaticAnimal.__init__(self, speed)
         PoisonousAnimal.__init__(self, speed)
+print(Duckbill.mro())
 
 
 db = Duckbill(10)
