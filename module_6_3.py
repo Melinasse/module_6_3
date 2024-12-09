@@ -26,7 +26,8 @@ class Animal:
         print(f'X:{self._cords[0]}, Y:{self._cords[1]}, Z:{self._cords[2]}')
 
     def attack(self):
-        danger = max(self._DEGREE_OF_DANGER, AquaticAnimal._DEGREE_OF_DANGER, PoisonousAnimal._DEGREE_OF_DANGER)
+        danger = max(cls._DEGREE_OF_DANGER for cls in self.__class__.__mro__
+                     if hasattr(cls, '_DEGREE_OF_DANGER'))
         if danger < 5:
             print("Sorry i'm peaceful:)")
         else:
@@ -54,7 +55,11 @@ class AquaticAnimal(Animal):
     def dive_in(self, dz):
         # diving_speed = self.speed / 2
         # self._cords[2] -= abs(dz) * (self.speed / 2)
-        self.move(0, 0, -abs(dz) / 2)
+        # self.move(0, 0, -abs(dz) / 2)
+        diving_speed = self.speed / 2
+        self._cords[2] -= abs(dz) * diving_speed
+
+
 
 class PoisonousAnimal(Animal):
     _DEGREE_OF_DANGER = 8
